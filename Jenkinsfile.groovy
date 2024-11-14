@@ -54,24 +54,20 @@ pipeline {
             
             // Генерация конфигурации
                     def config = """
-                    [Interface]
-                    PrivateKey = ${private_key}
-                    Address = ${IP_NUMBER}/32
-                    DNS = 8.8.8.8, 1.1.1.1
+[Interface]
+PrivateKey = ${private_key}
+Address = ${IP_NUMBER}/32
+DNS = 8.8.8.8, 1.1.1.1
 
-                    [Peer]
-                    PublicKey = ${public_key_server}
-                    AllowedIPs = 0.0.0.0/0, ::/0
-                    Endpoint = 5.42.101.240:10886
-                    PersistentKeepalive = 20
+[Peer]
+PublicKey = ${public_key_server}
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = 5.42.101.240:10886
+PersistentKeepalive = 20
                     """
             
             // Вывод конфигурации
                     println(config)
-
-            // Перезагрузка WireGuard
-                    def restart_wg = sh(returnStdout: true, script: 'systemctl restart wg-quick@wg0.service').trim()
-                    println(restart_wg)
                 }
             }
         }
