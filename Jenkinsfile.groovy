@@ -51,7 +51,8 @@ pipeline {
                 script {
                     def private_key = sh(returnStdout: true, script: 'cat /etc/wireguard/${CONFIG_NAME}_privatekey').trim()
                     def public_key_server = sh(returnStdout: true, script: 'cat /etc/wireguard/server_publickey').trim()
-
+                    def restart_wg = sh(returnStdout: true, script: 'systemctl restart wg-quick@wg0.service').trim()
+                    println(restart_wg(returnStatus))
                     println("[Interface]\nPrivateKey = ${private_key}\nAddress = ${IP_NUMBER}/32\nDNS = 8.8.8.8, 1.1.1.1\n\n[Peer]\nPublicKey = ${public_key_server}\nAllowedIPs = 0.0.0.0/0, ::/0\nEndpoint = 5.42.101.240:10886\nPersistentKeepalive = 20")   
                 }
             }
